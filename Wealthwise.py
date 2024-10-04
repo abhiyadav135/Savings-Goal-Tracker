@@ -21,7 +21,7 @@ def decrypt_password(encrypted_password):
 DB_USER = 'root'
 DB_PASSWORD = 'up80t5011'
 DB_HOST = '127.0.0.1'
-DB_NAME = 'mydatabase'
+DB_NAME = 'WealthWise'
 
 
 # Establishing the connection
@@ -53,7 +53,7 @@ def existing_member():
         
         if user_data:
             # User exists, show goal amount, goal progress, and transaction history
-            cur.execute("SELECT * FROM goals WHERE G_ID = %s", (u_id,))
+            cur.execute("SELECT * FROM goals WHERE U_ID = %s", (u_id,))
             goal_data = cur.fetchall()
             
             goal_amount = 0
@@ -68,14 +68,14 @@ def existing_member():
                 goal_progress = (goal_amount - remaining_amount) / goal_amount * 100
             
             # Get transaction history
-            cur.execute("SELECT * FROM transactions WHERE U_ID = %s", (u_id,))
-            transaction_data = cur.fetchall()
+            # You should create a 'transactions' table in your SQL script
+            # cur.execute("SELECT * FROM transactions WHERE U_ID = %s", (u_id,))
+            # transaction_data = cur.fetchall()
             
             return render_template('existing-member.html', 
                                    u_id=u_id, 
                                    goal_amount=goal_amount, 
-                                   goal_progress=goal_progress, 
-                                   transaction_data=transaction_data)
+                                   goal_progress=goal_progress)
         else:
             flash("Invalid username or password")
             return redirect(url_for('existing_member'))
