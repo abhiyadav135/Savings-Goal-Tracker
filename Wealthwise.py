@@ -30,8 +30,8 @@ def index():
 @app.route('/existing-member', methods=['GET', 'POST'])
 def existing_member():
     if request.method == 'POST':
-        u_id = request.form['uid']
-        u_password = request.form['upassword']
+        u_id = request.form['uerId']
+        u_password = request.form['password']
         
         
         
