@@ -8,8 +8,10 @@ create table user(
 );
 create table goals(
     G_ID int primary key,
+    U_ID int,
     G_Name varchar(100),
-    Amount float
+    Amount float,
+    FOREIGN KEY (U_ID) REFERENCES user(U_ID)
 );
 alter table user drop column U_Name;
 alter table goals add column G_Date varchar(100);

@@ -97,7 +97,6 @@ def new_member():
         else:
             flash("Passwords do not match")
             return redirect(url_for('new_member'))
-    return render_template('new-member.html')
     
     return render_template('new-member.html')
 
