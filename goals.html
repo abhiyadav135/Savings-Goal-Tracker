@@ -3,27 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Set Goal</title>
-    <link rel="stylesheet" href="goal.css"> <!-- Link to the goal.css -->
+    <title>Add Goals</title>
+    <link rel="stylesheet" href="goal.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #0d0d0d; /* Dark background */
+            color: #e0e0e0; /* Light grey text */
+            font-family: Arial, sans-serif;
+        }
+
+        .form-container {
+            background-color: #1a1a1a; /* Slightly lighter black */
+            padding: 30px;
+            border-radius: 10px;
+            width: 350px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5); /* Green glow effect */
+        }
+
+        h1 {
+            color: #76c7c0; /* Green color for headings */
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="number"], input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #76c7c0; /* Green border */
+            border-radius: 5px;
+            background-color: #222; /* Dark background for inputs */
+            color: #e0e0e0; /* Light grey text */
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus {
+            outline: none;
+            border-color: #58b1a9; /* Lighter green on focus */
+        }
+
+        button {
+            background-color: #76c7c0; /* Green background */
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #58b1a9; /* Darker green on hover */
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Set Your Goal</h1>
-        <form>
-            <div class="form-group">
-                <label for="goalName">Goal Name:</label>
-                <input type="text" id="goalName" required>
-            </div>
-            <div class="form-group">
-                <label for="goalAmount">Goal Amount:</label>
-                <input type="number" id="goalAmount" required>
-            </div>
-            <div class="form-group">
-                <label for="goalDeadline">Goal Deadline:</label>
-                <input type="date" id="goalDeadline" required>
-            </div>
-            <button type="submit">Submit</button>
+    <div class="form-container">
+        <h1>Add Goal</h1>
+        <form id="goalForm">
+            <input type="text" id="goalName" placeholder="Goal Name" required>
+            <input type="number" id="goalAmount" placeholder="Goal Amount" required>
+            <input type="date" id="goalDeadline" required>
+            <button type="submit">Submit Goal</button>
         </form>
     </div>
+
+    <script>
+        document.getElementById('goalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const goalName = document.getElementById('goalName').value;
+            const goalAmount = document.getElementById('goalAmount').value;
+            const goalDeadline = document.getElementById('goalDeadline').value;
+
+            // Save goal data to localStorage
+            const goals = localStorage.getItem('goals') ? JSON.parse(localStorage.getItem('goals')) : [];
+            goals.push({ goalName, goalAmount, goalDeadline });
+            localStorage.setItem('goals', JSON.stringify(goals));
+
+            // Redirect to the dashboard page
+            window.location.href = 'dash.html';
+        });
+    </script>
 </body>
 </html>
+
+
+
+
+
+
+

@@ -4,14 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Existing Member</title>
-    <link rel="stylesheet" href="first.css">
+    <link rel="stylesheet" href="new.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #1a1a1a;
+            color: white;
+        }
+
+        .form-container {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #76c7c0;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #58b1a9;
+        }
+    </style>
 </head>
 <body>
-    <h2>Existing Member</h2>
-    <form action="member-history.html" method="POST">
-        <label for="userId">Enter your User ID:</label>
-        <input type="text" id="userId" name="userId" required>
-        <button type="submit">Submit</button>
-    </form>
+    <div class="form-container">
+        <h1>Existing Member</h1>
+        <form id="existingMemberForm">
+            <input type="text" id="userId" placeholder="User ID" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('existingMemberForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const userId = document.getElementById('userId').value;
+            const password = document.getElementById('password').value;
+
+            // Redirect to the dashboard with the user ID as a query parameter
+            window.location.href = `dash.html?username=${encodeURIComponent(userId)}`;
+        });
+    </script>
 </body>
 </html>

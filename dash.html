@@ -5,26 +5,186 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="dash.css"> <!-- Only link to the dash.css -->
+    <style>
+        .goal-dropdown {
+            background-color: black;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 200px;
+            margin-top: 20px;
+        }
+
+        .dropdown-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 5px;
+        }
+
+        .tracker {
+            margin-bottom: 30px;
+        }
+
+        .progress-bar-container {
+            background-color: #444;
+            border-radius: 5px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .progress-bar {
+            background-color: #76c7c0;
+            height: 20px;
+            width: 0; /* Start at 0 */
+            border-radius: 5px;
+        }
+
+        .payment-tracker {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #222;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .installment-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .completion-message {
+            color: #76c7c0;
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Goal Tracker</h1>
-        <div class="content"> <!-- New div for content -->
+        <div class="content">
             <div class="tracker">
                 <span>Track your goals effectively!</span>
-                <span class="welcome-message" id="welcomeMessage"></span> <!-- Welcome message on the right -->
+                <span class="welcome-message" id="welcomeMessage"></span>
+            </div>
+            <div class="dropdown-container">
+                <h2>Your Goal Details</h2>
+                <select class="goal-dropdown" id="goalDropdown">
+                    <option disabled selected>Select your goal</option>
+                </select>
+                <div id="goalDetails" style="color: white; margin-top: 10px;"></div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="investment-container" id="investmentContainer" style="color: white; margin-top: 20px;"></div>
+                <input type="number" id="installmentAmount" placeholder="Enter Installment Amount" min="0" />
+                <button id="updateProgress">Add Installment</button>
+                <div class="completion-message" id="completionMessage" style="display: none;"></div>
+            </div>
+            <div class="payment-tracker">
+                <h2>Payment Tracker</h2>
+                <ul class="installment-list" id="installmentList"></ul>
             </div>
         </div>
-        <a href="goals.html" class="add-goal-btn">+</a> <!-- Plus button -->
+        <a href="goals.html" class="add-goal-btn">+</a>
     </div>
 
     <script>
-        // Get the username from the URL
         const params = new URLSearchParams(window.location.search);
         const username = params.get('username');
 
         // Display welcome message
         document.getElementById('welcomeMessage').innerText = `Welcome, ${username}!`;
+
+        // Retrieve existing goals from localStorage
+        const existingGoals = localStorage.getItem('goals') ? JSON.parse(localStorage.getItem('goals')) : [];
+
+        // Populate the dropdown with existing goals
+        const goalDropdown = document.getElementById('goalDropdown');
+        existingGoals.forEach(goal => {
+            const option = document.createElement('option');
+            option.value = goal.goalName;
+            option.textContent = goal.goalName;
+            goalDropdown.appendChild(option);
+        });
+
+        // Display goal details and progress bar when a goal is selected
+        goalDropdown.addEventListener('change', function() {
+            const selectedGoal = existingGoals.find(goal => goal.goalName === this.value);
+            if (selectedGoal) {
+                const goalAmount = parseFloat(selectedGoal.goalAmount);
+                const investmentInstallment = parseFloat(selectedGoal.investmentInstallment) || 0;
+
+                document.getElementById('goalDetails').innerHTML = `
+                    <p>Goal Amount: $${goalAmount}</p>
+                    <p>Goal Deadline: ${selectedGoal.goalDeadline}</p>
+                    <p>Investment Installment: $${investmentInstallment}</p>
+                `;
+
+                // Update progress bar
+                const updatedProgress = (investmentInstallment / goalAmount) * 100;
+                const progressBar = document.getElementById('progressBar');
+                progressBar.style.width = (isNaN(updatedProgress) ? 0 : updatedProgress) + '%';
+            }
+        });
+
+        // Handle adding new installment
+        document.getElementById('updateProgress').addEventListener('click', function() {
+            const selectedGoal = existingGoals.find(goal => goal.goalName === goalDropdown.value);
+            if (selectedGoal) {
+                const installmentAmount = parseFloat(document.getElementById('installmentAmount').value) || 0;
+
+                // Update investment amount
+                selectedGoal.investmentInstallment = (parseFloat(selectedGoal.investmentInstallment) || 0) + installmentAmount;
+
+                // Update localStorage
+                localStorage.setItem('goals', JSON.stringify(existingGoals));
+
+                // Update the progress bar
+                const goalAmount = parseFloat(selectedGoal.goalAmount);
+                const updatedProgress = (selectedGoal.investmentInstallment / goalAmount) * 100;
+
+                document.getElementById('progressBar').style.width = (isNaN(updatedProgress) ? 0 : updatedProgress) + '%';
+                document.getElementById('investmentContainer').innerText = `Total Invested: $${selectedGoal.investmentInstallment}`;
+
+                // Check if the goal is completed
+                const completionMessage = document.getElementById('completionMessage');
+                if (selectedGoal.investmentInstallment >= goalAmount) {
+                    completionMessage.innerText = "Goal completed. Now go achieve it!";
+                    completionMessage.style.display = "block"; // Show the message
+                } else {
+                    completionMessage.style.display = "none"; // Hide the message if not completed
+                }
+
+                // Update the payment tracker
+                const installmentList = document.getElementById('installmentList');
+                const listItem = document.createElement('li');
+                listItem.textContent = `Installed $${installmentAmount} towards ${selectedGoal.goalName}`;
+                
+                // Add new installment to the top of the list
+                installmentList.insertBefore(listItem, installmentList.firstChild);
+
+                // Limit to the last 5 installments
+                if (installmentList.children.length > 5) {
+                    installmentList.removeChild(installmentList.lastChild);
+                }
+            }
+        });
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
