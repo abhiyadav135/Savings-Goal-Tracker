@@ -18,4 +18,4 @@ alter table goals add column G_Date varchar(100);
 select * from goals;
 alter table user add constraint unique (U_ID);
 alter table goals add constraint unique (G_ID);
-select * from  goals;
+select * from  user;
