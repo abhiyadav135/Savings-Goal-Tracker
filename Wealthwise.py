@@ -30,7 +30,7 @@ def index():
 @app.route('/existing-member', methods=['GET', 'POST'])
 def existing_member():
     if request.method == 'POST':
-        u_id = request.form['uerId']
+        u_id = request.form['userId']
         u_password = request.form['password']
         
         
@@ -66,7 +66,7 @@ def existing_member():
                                    goal_progress=goal_progress)
         else:
             flash("Invalid username or password")
-            return redirect(url_for('existing_member'))
+            return redirect(url_for('existing_member.html'))
     
     return render_template('existing-member.html')
 
@@ -81,21 +81,21 @@ def new_member():
             
             cur.execute("INSERT INTO user (U_ID, U_Password) VALUES (%s, %s)", (u_id,u_password))
             cnx.commit()
-            return redirect(url_for('setup_goal', u_id=u_id))
+            return redirect(url_for('goals', u_id=u_id))
         else:
             flash("Passwords do not match")
-            return redirect(url_for('new_member'))
+            return redirect(url_for('new_member.html'))
     
     return render_template('new-member.html')
 
-@app.route('/setup-goal', methods=['GET', 'POST'])
-def setup_goal():
+@app.route('goals', methods=['GET', 'POST'])
+def goals():
 
     u_id = request.args.get('u_id')
     if request.method == 'POST':
-        g_name = request.form['goal_name']
-        g_amount = float(request.form['goal_amount'])
-        g_date = request.form['goal_date']
+        g_name = request.form['goalName']
+        g_amount = float(request.form['goalAmount'])
+        g_date = request.form['goalDeadline']
         
         cur.execute("INSERT INTO goals (G_ID, G_Name, Amount, G_Date) VALUES (%s, %s, %s, %s)",
                      (u_id, g_name, g_amount, g_date))
@@ -103,4 +103,4 @@ def setup_goal():
         
         return "Goal setup successfully!"
     
-    return render_template('setup-goal.html')
+    return render_template('goals.html')
