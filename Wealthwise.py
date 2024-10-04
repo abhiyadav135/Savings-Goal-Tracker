@@ -3,7 +3,7 @@ import mysql.connector
 
 # Configuration
 DB_USER = 'root'
-DB_PASSWORD = 'GAnDCfvtKpAE?F*mBmKbu:%*JAeC4!T$)c8mxqmPstsC;=vqpnd^qk4ZCBX1qe$q'
+DB_PASSWORD = 'up80t5011'
 DB_HOST = '127.0.0.1'
 DB_NAME = 'mydatabase'
 
