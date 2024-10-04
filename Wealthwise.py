@@ -31,7 +31,7 @@ def existing_member():
         
         
         # Check if the user exists in the database
-        cur.execute("SELECT * FROM user WHERE U_ID = %s AND U_Password = %s", (u_id, decrypted_password))
+        cur.execute("SELECT * FROM user WHERE U_ID = %s AND U_Password = %s", (u_id))
         user_data = cur.fetchone()
         
         if user_data:
@@ -74,7 +74,7 @@ def new_member():
     while True:
         if u_password == u_confirm_password:
             
-            cur.execute("INSERT INTO user (U_ID, U_Password) VALUES (%s, %s)", (u_id, encrypted_password))
+            cur.execute("INSERT INTO user (U_ID, U_Password) VALUES (%s, %s)", (u_id))
             cnx.commit()
             return redirect(url_for('setup_goal', u_id=u_id))
         else:
