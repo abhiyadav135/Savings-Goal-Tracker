@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="dash.css"> <!-- Only link to the dash.css -->
+</head>
+<body>
+    <div class="container">
+        <h1>Goal Tracker</h1>
+        <div class="content"> <!-- New div for content -->
+            <div class="tracker">
+                <span>Track your goals effectively!</span>
+                <span class="welcome-message" id="welcomeMessage"></span> <!-- Welcome message on the right -->
+            </div>
+        </div>
+        <a href="goals.html" class="add-goal-btn">+</a> <!-- Plus button -->
+    </div>
+
+    <script>
+        // Get the username from the URL
+        const params = new URLSearchParams(window.location.search);
+        const username = params.get('username');
+
+        // Display welcome message
+        document.getElementById('welcomeMessage').innerText = `Welcome, ${username}!`;
+    </script>
+</body>
+</html>

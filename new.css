@@ -1,0 +1,42 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: #002C54; /* Midnight black background */
+    color: #fff;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Full height */
+}
+
+.container {
+    text-align: center; /* Center text */
+    background-color: #001f3f; /* Optional background for the form */
+    padding: 20px; /* Space around the content */
+    border-radius: 10px; /* Slightly round corners */
+}
+
+.registration-form {
+    display: flex;
+    flex-direction: column; /* Stack form elements */
+    gap: 10px; /* Space between elements */
+}
+
+input {
+    padding: 10px; /* Padding for inputs */
+    border: none; /* No border */
+    border-radius: 5px; /* Slightly round corners */
+}
+
+button {
+    background-color: #007bff; /* Blue background */
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}

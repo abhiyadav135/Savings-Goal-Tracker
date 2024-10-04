@@ -1,0 +1,87 @@
+body {
+    margin: 0; /* Remove default margins */
+    font-family: 'Arial', sans-serif;
+    background: #002C54; /* Midnight black background */
+    color: wheat;
+    display: flex;
+    flex-direction: column; /* Stack header, description, and container */
+    min-height: 100vh; /* Ensure it takes full height of the viewport */
+}
+
+.header {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    justify-content: center; /* Center the header items */
+    margin-top: 20px; /* Space from the top */
+}
+
+.logo {
+    width: 300px; /* Enlarged logo size */
+    height: 300px; /* Enlarged logo size */
+    margin-right: 20px; /* Space between logo and site name */
+    border-radius: 10px;
+}
+
+h1 {
+    font-size: 3.5em; /* Slightly larger font size */
+    font-family: 'Times New Roman', serif; /* Changed to Times New Roman */
+    margin: 0; /* Remove default margin */
+}
+
+.container {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+}
+
+.button {
+    background: #007bff; /* Blue background */
+    color: #fff;
+    padding: 15px 35px; /* Slightly bigger button */
+    margin: 0 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.button:hover {
+    background: #0056b3; /* Darker blue on hover */
+}
+
+.description{
+    display: flex;
+    justify-content: center;
+    font-size:20px;
+
+}
+
+/* New Footer Styles */
+.footer {
+    background-color: #001f3f; /* Dark blue background */
+    color: #fff;
+    padding: 20px; /* Add padding */
+    text-align: center;
+    width: 100%; /* Full width */
+    margin-top: 110px;
+    margin-bottom: 0px;
+}
+
+.footer-logo {
+    width: 18px; /* Adjust size as needed */
+    height: 18px; /* Maintain aspect ratio */
+}
+
+.github-link {
+    color: #fff; /* White color for the link */
+    text-decoration: none; /* No underline */
+    margin-bottom: 100px; /* Space around the link */
+    font-size: 15px;
+}
+
+.github-link:hover {
+    text-decoration: underline; /* Underline on hover */
+}

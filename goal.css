@@ -1,0 +1,52 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: black; /* Midnight black background */
+    color: #fff;
+}
+
+.container {
+    max-width: 600px; /* Limit the width of the form */
+    margin: 50px auto; /* Center the container */
+    padding: 20px; /* Padding around the container */
+    background-color: #111; /* Dark gray background for contrast */
+    border-radius: 10px; /* Round corners */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Optional shadow */
+}
+
+h1 {
+    text-align: center; /* Center the heading */
+}
+
+.form-group {
+    margin-bottom: 20px; /* Space between form fields */
+}
+
+label {
+    display: block; /* Make label block-level */
+    margin-bottom: 5px; /* Space below label */
+}
+
+input {
+    width: 100%; /* Full width for inputs */
+    padding: 10px; /* Padding inside inputs */
+    border: 1px solid #444; /* Border color */
+    border-radius: 5px; /* Round corners */
+    background: #222; /* Darker background for inputs */
+    color: #fff; /* White text color */
+}
+
+button {
+    width: 100%; /* Full width button */
+    padding: 10px; /* Padding inside button */
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Round corners */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Pointer cursor */
+}
+
+button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}

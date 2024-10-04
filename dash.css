@@ -1,0 +1,60 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: white; /* Midnight black background for the body */
+}
+
+.container {
+    text-align: left; /* Align text to the left */
+    margin: 20px; /* Space around the content */
+}
+
+.content {
+    background-color: #111; /* Dark gray for contrast */
+    padding: 20px; /* Padding around the content */
+    border-radius: 10px; /* Slightly round corners */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Optional shadow for depth */
+    color: whitesmoke;
+}
+
+h1 {
+    font-size: 2.5em; /* Smaller font size for heading */
+    margin-top: 10px; /* Reduced margin at the top */
+    color: black;
+}
+
+.tracker {
+    display: flex; /* Use flexbox to align items in a single line */
+    justify-content: space-between; /* Space between items */
+    align-items: center; /* Center items vertically */
+    margin-top: 20px; /* Space above tracker */
+    font-size: 20px;
+}
+
+.tracker span {
+    margin-right: 20px; /* Add space between elements */
+}
+
+.welcome-message {
+    margin-left: auto; /* Align to the right */
+    font-size: 1.2em; /* Font size for welcome message */
+}
+
+.add-goal-btn {
+    position: fixed; /* Fix position to bottom right */
+    bottom: 20px; /* Distance from the bottom */
+    right: 20px; /* Distance from the right */
+    width: 50px; /* Width of the button */
+    height: 50px; /* Height of the button */
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text color */
+    border-radius: 50%; /* Round button */
+    font-size: 30px; /* Large font size for the plus sign */
+    text-align: center; /* Center the text */
+    text-decoration: none; /* Remove underline */
+    line-height: 50px; /* Center text vertically */
+}
+
+.add-goal-btn:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
