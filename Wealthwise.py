@@ -73,9 +73,9 @@ def existing_member():
 @app.route('/new-member', methods=['GET', 'POST'])
 def new_member():
     if request.method == 'POST':
-        u_id = request.form['uid']
-        u_password = request.form['upassword']
-        u_confirm_password = request.form['uconfirmpassword']
+        u_id = request.form['userId']
+        u_password = request.form['password']
+        u_confirm_password = request.form['confirmPassword']
     while True:
         if u_password == u_confirm_password:
             
