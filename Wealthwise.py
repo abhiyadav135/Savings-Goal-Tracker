@@ -20,7 +20,7 @@ cnx = mysql.connector.connect(
 cur=cnx.cursor()
 
 
-app=Flask(_name_)
+app=Flask(__name__)
 
 @app.route('/existing-member')
 def existing():
