@@ -22,6 +22,11 @@ cur=cnx.cursor()
 
 app=Flask(__name__)
 
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('first.html')
+
+
 @app.route('/existing-member', methods=['GET', 'POST'])
 def existing_member():
     if request.method == 'POST':
