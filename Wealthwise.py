@@ -1,5 +1,21 @@
-from flask import Flask, redirect,request,render_template, url_for
+from flask import Flask, flash, redirect,request,render_template, url_for
 import mysql.connector
+# PASSWROD ENCRYPETER AND DECRYPRTER
+def encrypt_password(password):
+    key = 123  # You can use any key you want
+    encrypted_password = ""
+    for char in password:
+        encrypted_password += chr(ord(char) ^ key)
+    return encrypted_password
+
+def decrypt_password(encrypted_password):
+    key = 123  # Use the same key used for encryption
+    decrypted_password = ""
+    for char in encrypted_password:
+        decrypted_password += chr(ord(char) ^ key)
+    return decrypted_password
+
+
 
 # Configuration
 DB_USER = 'root'
@@ -39,12 +55,14 @@ def new_member():
         u_confirm_password = request.form['uconfirmpassword']
     while True:
         if u_password == u_confirm_password:
-            cur.execute("INSERT INTO user (U_ID,U_Password) VALUES (%s, %s)",
-                         (u_id, u_password))
+            encrypted_password = encrypt_password(u_password)
+            cur.execute("INSERT INTO user (U_ID, U_Password) VALUES (%s, %s)", (u_id, encrypted_password))
             cnx.commit()
-            break
-        # Redirect to goal setup page
-        return redirect(url_for('setup_goal', u_id=u_id))
+            return redirect(url_for('setup_goal', u_id=u_id))
+        else:
+            flash("Passwords do not match")
+            return redirect(url_for('new_member'))
+    return render_template('new-member.html')
     
     return render_template('new-member.html')
 
