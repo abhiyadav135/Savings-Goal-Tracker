@@ -22,21 +22,26 @@ cur=cnx.cursor()
 
 app=Flask(__name__)
 
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('first.html')
+
+
 @app.route('/existing-member', methods=['GET', 'POST'])
 def existing_member():
     if request.method == 'POST':
-        u_id = request.form['uid']
-        u_password = request.form['upassword']
+        u_id = request.form['userId']
+        u_password = request.form['password']
         
         
         
         # Check if the user exists in the database
-        cur.execute("SELECT * FROM user WHERE U_ID = %s AND U_Password = %s", (u_id, decrypted_password))
+        cur.execute("SELECT * FROM user WHERE U_ID = %s AND U_Password = %s", (u_id,u_password))
         user_data = cur.fetchone()
         
         if user_data:
             # User exists, show goal amount, goal progress, and transaction history
-            cur.execute("SELECT * FROM goals WHERE U_ID = %s", (u_id,))
+            cur.execute("SELECT * FROM goals WHERE U_ID = %s AND U_Password=%s", (u_id,u_password))
             goal_data = cur.fetchall()
             
             goal_amount = 0
@@ -59,43 +64,46 @@ def existing_member():
                                    u_id=u_id, 
                                    goal_amount=goal_amount, 
                                    goal_progress=goal_progress)
-        else:
-            flash("Invalid username or password")
-            return redirect(url_for('existing_member'))
+        
     
     return render_template('existing-member.html')
 
 @app.route('/new-member', methods=['GET', 'POST'])
 def new_member():
     if request.method == 'POST':
-        u_id = request.form['uid']
-        u_password = request.form['upassword']
-        u_confirm_password = request.form['uconfirmpassword']
-    while True:
+        u_id = request.form['userId']
+        u_password = request.form['password']
+        u_confirm_password = request.form['confirmPassword']
+
         if u_password == u_confirm_password:
-            
-            cur.execute("INSERT INTO user (U_ID, U_Password) VALUES (%s, %s)", (u_id, encrypted_password))
+            # Check if the user already exists
+            cur.execute("SELECT * FROM user WHERE U_ID = %s", (u_id,))
+            user_data = cur.fetchone()
+
+            if user_data:
+                flash("User  ID already exists. Please choose a different ID.")
+                return render_template('new-member.html'), {'message': 'User  ID already exists. Please choose a different ID.'}
+
+            # Insert the new user into the database
+            cur.execute("INSERT INTO user (U_ID, U_Password) VALUES (%s, %s)", (u_id, u_password))
             cnx.commit()
-            return redirect(url_for('setup_goal', u_id=u_id))
-        else:
-            flash("Passwords do not match")
-            return redirect(url_for('new_member'))
-    
+            return redirect(url_for('goals', u_id=u_id))
+
     return render_template('new-member.html')
 
-@app.route('/setup-goal', methods=['GET', 'POST'])
-def setup_goal():
+@app.route('goals', methods=['GET', 'POST'])
+def goals():
 
     u_id = request.args.get('u_id')
     if request.method == 'POST':
-        g_name = request.form['goal_name']
-        g_amount = float(request.form['goal_amount'])
-        g_date = request.form['goal_date']
+        g_name = request.form['goalName']
+        g_amount = float(request.form['goalAmount'])
+        g_date = request.form['goalDeadline']
         
-        cur.execute("INSERT INTO goals (G_ID, G_Name, Amount, G_Date) VALUES (%s, %s, %s, %s)",
-                     (u_id, g_name, g_amount, g_date))
+        cur.execute("INSERT INTO goals (G_Name, Amount, G_Date) VALUES ( %s, %s, %s)",
+                     ( g_name, g_amount, g_date))
         cnx.commit()
         
         return "Goal setup successfully!"
     
-    return render_template('setup-goal.html')
+    return render_template('goals.html')
