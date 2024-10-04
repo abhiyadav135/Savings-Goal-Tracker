@@ -1,4 +1,4 @@
-from flask import Flask,request,render_template
+from flask import Flask, redirect,request,render_template, url_for
 import mysql.connector
 
 # Configuration
@@ -42,7 +42,25 @@ def new_member():
             cur.execute("INSERT INTO user (U_ID,U_Password) VALUES (%s, %s)",
                          (u_id, u_password))
             cnx.commit()
-            return "User  created successfully!"
             break
+        # Redirect to goal setup page
+        return redirect(url_for('setup_goal', u_id=u_id))
+    
     return render_template('new-member.html')
 
+@app.route('/setup-goal', methods=['GET', 'POST'])
+def setup_goal():
+
+    u_id = request.args.get('u_id')
+    if request.method == 'POST':
+        g_name = request.form['goal_name']
+        g_amount = float(request.form['goal_amount'])
+        g_date = request.form['goal_date']
+        
+        cur.execute("INSERT INTO goals (G_ID, G_Name, Amount, G_Date) VALUES (%s, %s, %s, %s)",
+                     (u_id, g_name, g_amount, g_date))
+        cnx.commit()
+        
+        return "Goal setup successfully!"
+    
+    return render_template('setup-goal.html')

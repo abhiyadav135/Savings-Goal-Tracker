@@ -1,4 +1,5 @@
--- Active: 1728062483228@@127.0.0.1@3306@WealthWise
+-- Active: 1728074324625@@127.0.0.1@3306
+create DATABASE WealthWise;
 use WealthWise;
 create table user(
     U_ID INT PRIMARY KEY,
