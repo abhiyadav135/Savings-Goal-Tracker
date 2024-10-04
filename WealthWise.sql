@@ -1,4 +1,4 @@
--- Active: 1728074324625@@127.0.0.1@3306
+-- Active: 1728076097326@@127.0.0.1@3306
 create DATABASE WealthWise;
 use WealthWise;
 create table user(
@@ -14,3 +14,5 @@ create table goals(
 alter table user drop column U_Name;
 alter table goals add column G_Date varchar(100);
 select * from goals;
+alter table user add constraint unique (U_ID);
+alter table goals add constraint unique (G_ID);
