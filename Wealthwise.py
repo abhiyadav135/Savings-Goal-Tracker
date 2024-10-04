@@ -31,12 +31,12 @@ def existing_member():
         
         
         # Check if the user exists in the database
-        cur.execute("SELECT * FROM user WHERE U_ID = %s AND U_Password = %s", (u_id))
+        cur.execute("SELECT * FROM user WHERE U_ID = %s AND U_Password = %s", (u_id,u_password))
         user_data = cur.fetchone()
         
         if user_data:
             # User exists, show goal amount, goal progress, and transaction history
-            cur.execute("SELECT * FROM goals WHERE U_ID = %s", (u_id,))
+            cur.execute("SELECT * FROM goals WHERE U_ID = %s AND U_Password=%s", (u_id,u_password))
             goal_data = cur.fetchall()
             
             goal_amount = 0
@@ -74,7 +74,7 @@ def new_member():
     while True:
         if u_password == u_confirm_password:
             
-            cur.execute("INSERT INTO user (U_ID, U_Password) VALUES (%s, %s)", (u_id))
+            cur.execute("INSERT INTO user (U_ID, U_Password) VALUES (%s, %s)", (u_id,u_password))
             cnx.commit()
             return redirect(url_for('setup_goal', u_id=u_id))
         else:
