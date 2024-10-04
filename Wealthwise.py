@@ -38,14 +38,49 @@ cur=cnx.cursor()
 
 app=Flask(__name__)
 
-@app.route('/existing-member')
-def existing():
-    current_route = request.path
-    if current_route == '/existing-member':
-        print("Existing member page is opened")
+@app.route('/existing-member', methods=['GET', 'POST'])
+def existing_member():
+    if request.method == 'POST':
+        u_id = request.form['uid']
+        u_password = request.form['upassword']
         
+        # Decrypt the password
+        decrypted_password = decrypt_password(u_password)
+        
+        # Check if the user exists in the database
+        cur.execute("SELECT * FROM user WHERE U_ID = %s AND U_Password = %s", (u_id, decrypted_password))
+        user_data = cur.fetchone()
+        
+        if user_data:
+            # User exists, show goal amount, goal progress, and transaction history
+            cur.execute("SELECT * FROM goals WHERE G_ID = %s", (u_id,))
+            goal_data = cur.fetchall()
+            
+            goal_amount = 0
+            remaining_amount = 0
+            goal_progress = 0
+            
+            for goal in goal_data:
+                goal_amount += goal[2]
+                remaining_amount += goal[2]  # Assuming the remaining amount is the same as the goal amount for now
+            
+            if goal_amount > 0:
+                goal_progress = (goal_amount - remaining_amount) / goal_amount * 100
+            
+            # Get transaction history
+            cur.execute("SELECT * FROM transactions WHERE U_ID = %s", (u_id,))
+            transaction_data = cur.fetchall()
+            
+            return render_template('existing-member.html', 
+                                   u_id=u_id, 
+                                   goal_amount=goal_amount, 
+                                   goal_progress=goal_progress, 
+                                   transaction_data=transaction_data)
+        else:
+            flash("Invalid username or password")
+            return redirect(url_for('existing_member'))
+    
     return render_template('existing-member.html')
-
 
 @app.route('/new-member', methods=['GET', 'POST'])
 def new_member():
